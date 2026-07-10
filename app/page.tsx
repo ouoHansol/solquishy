@@ -2,7 +2,7 @@
 
 import { CSSProperties, useMemo, useState } from "react";
 
-type SlangiId = "berry" | "peach" | "potato" | "butter" | "peanut" | "soap";
+type SlangiId = "berry" | "pudding" | "potato" | "butter" | "peanut" | "soap";
 
 type Answer = {
   text: string;
@@ -18,67 +18,67 @@ type Question = {
 
 const questions: Question[] = [
   {
-    eyebrow: "친구 모임에 도착했는데",
-    title: "아는 사람이 딱 한 명뿐이라면?",
+    eyebrow: "친구들과 약속을 잡는데",
+    title: "의견이 자꾸 엇갈린다면?",
     answers: [
-      { text: "일단 옆 사람에게 먼저 말 건다", sub: "어색함은 내가 녹여버리지", scores: { berry: 2, soap: 1 } },
-      { text: "분위기를 보다가 자연스럽게 낀다", sub: "말랑하게 타이밍을 기다려", scores: { peach: 2, potato: 1 } },
+      { text: "조건을 하나씩 따져서 딱 정한다", sub: "기준이 분명해야 마음이 편해", scores: { peanut: 2, soap: 1 } },
+      { text: "다들 편한 쪽으로 유연하게 맞춘다", sub: "좋은 분위기가 더 중요해", scores: { pudding: 2, potato: 1 } },
+    ],
+  },
+  {
+    eyebrow: "아는 사람이 딱 한 명인 모임",
+    title: "도착한 뒤 나의 모습은?",
+    answers: [
+      { text: "먼저 말 걸며 분위기를 띄운다", sub: "어색한 공기는 내가 철푸덕!", scores: { berry: 2, pudding: 1 } },
+      { text: "조용히 살피다 내 사람을 찾는다", sub: "아무에게나 마음을 열진 않아", scores: { potato: 1, butter: 2 } },
+    ],
+  },
+  {
+    eyebrow: "친구가 힘든 일을 털어놓는다",
+    title: "내 위로 방식에 가까운 것은?",
+    answers: [
+      { text: "감정부터 충분히 들어주고 안아준다", sub: "마음이 탱글하게 돌아올 때까지", scores: { pudding: 2, potato: 1 } },
+      { text: "투덜거리면서도 필요한 건 다 챙긴다", sub: "말은 까칠해도 행동은 버터처럼", scores: { butter: 2, soap: 1 } },
+    ],
+  },
+  {
+    eyebrow: "주문한 메뉴가 살짝 다르게 나왔다",
+    title: "이럴 때 나는?",
+    answers: [
+      { text: "정확히 무엇이 다른지 말하고 바꾼다", sub: "작은 차이도 그냥 넘기기 어려워", scores: { peanut: 2, soap: 1 } },
+      { text: "먹을 만하면 그냥 즐겁게 먹는다", sub: "이 정도 변수는 말랑하게 넘겨", scores: { pudding: 1, berry: 2 } },
     ],
   },
   {
     eyebrow: "갑자기 생긴 완전한 자유시간",
-    title: "오늘 오후를 보내는 방식은?",
+    title: "가장 끌리는 오후는?",
     answers: [
-      { text: "처음 가는 곳으로 즉흥 출발", sub: "재밌어 보이면 일단 고!", scores: { berry: 1, peanut: 2 } },
-      { text: "좋아하는 곳에서 푹 충전", sub: "익숙한 포근함이 최고야", scores: { butter: 2, potato: 1 } },
-    ],
-  },
-  {
-    eyebrow: "친구가 속상한 일을 털어놓는다",
-    title: "내가 가장 먼저 하는 말은?",
-    answers: [
-      { text: "헉, 진짜 마음 많이 아팠겠다", sub: "감정부터 꼭 안아주기", scores: { peach: 2, butter: 1 } },
-      { text: "우리 하나씩 해결해보자", sub: "차분히 출구부터 찾기", scores: { soap: 2, peanut: 1 } },
+      { text: "처음 보는 곳으로 즉흥 출발", sub: "재밌어 보이면 일단 철푸덕!", scores: { berry: 2, peanut: 1 } },
+      { text: "좋아하는 곳에서 느긋하게 충전", sub: "익숙한 포근함이 오래가", scores: { potato: 2, butter: 1 } },
     ],
   },
   {
     eyebrow: "마감이 일주일 남았다",
     title: "나의 현실적인 작업 스타일은?",
     answers: [
-      { text: "오늘 할 만큼 미리 나눠둔다", sub: "매일 조금씩, 단단하게", scores: { soap: 2, potato: 1 } },
-      { text: "영감 올 때 집중해서 끝낸다", sub: "한 번 불붙으면 초고속", scores: { berry: 1, peanut: 2 } },
+      { text: "할 일을 나누고 순서대로 끝낸다", sub: "반듯하게 정리되면 속이 개운해", scores: { soap: 2, potato: 1 } },
+      { text: "감이 올 때 한꺼번에 몰아친다", sub: "한 번 신나면 끝까지 간다", scores: { berry: 2, pudding: 1 } },
     ],
   },
   {
-    eyebrow: "단체 채팅방이 조용하다",
-    title: "나도 모르게 하는 행동은?",
+    eyebrow: "소중한 사람에게 애정을 표현할 때",
+    title: "더 가까운 내 방식은?",
     answers: [
-      { text: "웃긴 짤 하나 툭 던진다", sub: "심심한 공기는 못 참지", scores: { berry: 2, peanut: 1 } },
-      { text: "친구들 메시지에 다정하게 답한다", sub: "조용해도 온도는 따뜻하게", scores: { peach: 1, butter: 2 } },
+      { text: "좋아한다고 자주, 솔직하게 말한다", sub: "마음은 따뜻할 때 바로 나눠야지", scores: { pudding: 2, berry: 1 } },
+      { text: "말보다 필요한 걸 조용히 해준다", sub: "티는 안 내도 다 보고 있어", scores: { butter: 2, potato: 1 } },
     ],
   },
   {
-    eyebrow: "말랑이 가게에 들어갔다",
-    title: "가장 먼저 손이 가는 장난감은?",
+    eyebrow: "말랑이 가게에서 딱 하나를 고른다",
+    title: "나도 모르게 손이 가는 촉감은?",
     answers: [
-      { text: "처음 보는 신기한 모양", sub: "이 촉감은 대체 뭐지?", scores: { peanut: 2, berry: 1 } },
-      { text: "보기만 해도 편안한 모양", sub: "손에 착 감기는 게 좋아", scores: { butter: 2, potato: 1 } },
-    ],
-  },
-  {
-    eyebrow: "의견이 살짝 엇갈렸다",
-    title: "대화를 풀어가는 쪽은?",
-    answers: [
-      { text: "서로 기분부터 부드럽게 푼다", sub: "마음이 풀려야 말도 통해", scores: { peach: 2, butter: 1 } },
-      { text: "사실을 정리해서 오해를 푼다", sub: "차근차근 보면 답이 보여", scores: { soap: 2, potato: 1 } },
-    ],
-  },
-  {
-    eyebrow: "누군가 나를 칭찬한다면",
-    title: "더 듣고 싶은 한마디는?",
-    answers: [
-      { text: "너랑 있으면 진짜 재밌어!", sub: "주변을 통통 튀게 만드는 사람", scores: { berry: 2, peanut: 1 } },
-      { text: "너라서 마음 놓을 수 있어", sub: "곁에 오래 두고 싶은 사람", scores: { potato: 2, soap: 1 } },
+      { text: "씹히듯 오돌토돌한 크런치 촉감", sub: "복잡하고 확실한 손맛이 좋아", scores: { peanut: 2, butter: 1 } },
+      { text: "매끈하고 폭신한 정돈된 촉감", sub: "깔끔하고 예측 가능한 게 좋아", scores: { soap: 2, potato: 1 } },
     ],
   },
 ];
@@ -90,84 +90,86 @@ const results: Record<SlangiId, {
   tags: string[];
   strength: string;
   match: string;
-  filter: string;
+  image: string;
   color: string;
 }> = {
   berry: {
-    name: "딸기콕 슬랑이",
-    short: "분위기를 톡! 깨우는 에너지 말랑이",
-    description: "재미의 냄새를 기막히게 맡고 사람들 사이에 생기를 불어넣어요. 솔직하고 반응이 빠르며, 좋아하는 것 앞에서는 누구보다 반짝이는 타입이에요.",
-    tags: ["#통통튀는", "#분위기메이커", "#솔직한"],
-    strength: "사람들의 긴장을 순식간에 녹이는 힘",
-    match: "포근하게 받아주는 버터포옹 슬랑이",
-    filter: "saturate(1.15)", color: "#ff5f78",
+    name: "딸기 철푸덕 슬랑이",
+    short: "재미를 발견하면 먼저 몸부터 던지는 즉흥파",
+    description: "새로운 사람과 상황 앞에서 주저하기보다 일단 철푸덕 뛰어들어요. 반응이 빠르고 표현이 솔직해서, 심심했던 분위기도 순식간에 말랑하고 즐겁게 바꾸는 타입이에요.",
+    tags: ["#즉흥출발", "#분위기메이커", "#솔직한반응"],
+    strength: "낯선 순간을 재밌는 사건으로 바꾸는 추진력",
+    match: "차분히 중심을 잡아주는 쫀득 감자 슬랑이",
+    image: "/results/strawberry-splat.png",
+    color: "#f04a3f",
   },
-  peach: {
-    name: "복숭아푸딩 슬랑이",
-    short: "마음을 먼저 알아채는 다정 말랑이",
-    description: "말보다 표정을 먼저 읽고, 모두가 편안한 온도를 만들어요. 부드러워 보여도 소중한 사람을 지킬 때는 생각보다 단단한 중심이 있답니다.",
-    tags: ["#공감요정", "#평화주의", "#은근단단"],
-    strength: "상대가 말하지 않은 마음까지 알아보는 힘",
-    match: "깔끔하게 길을 잡는 비누반듯 슬랑이",
-    filter: "hue-rotate(328deg) saturate(.82) brightness(1.08)", color: "#ff9bb1",
+  pudding: {
+    name: "탱글 푸딩 슬랑이",
+    short: "상대의 마음에 맞춰 부드럽게 흔들리는 공감파",
+    description: "말보다 표정을 먼저 읽고, 날카로운 상황도 탱글하게 받아 넘겨요. 유연하다고 중심이 없는 건 아니에요. 모두가 편안해질 수 있는 온도를 누구보다 잘 찾는 타입이에요.",
+    tags: ["#공감만렙", "#유연한마음", "#평화로운"],
+    strength: "굳어 있는 마음을 부드럽게 풀어주는 감각",
+    match: "기준을 또렷하게 세워주는 크런치 땅콩 슬랑이",
+    image: "/results/jiggly-pudding.png",
+    color: "#d98625",
   },
   potato: {
-    name: "감자포근 슬랑이",
-    short: "천천히 오래가는 든든 말랑이",
-    description: "낯선 곳에서는 잠깐 관찰하지만, 한번 마음을 열면 오래 곁을 지켜요. 과장 없이 꾸준하고 편안해서 주변 사람들이 자꾸 기대게 되는 타입이에요.",
-    tags: ["#꾸준한", "#편안한", "#진국인"],
-    strength: "급할수록 중심을 잡아주는 묵직한 안정감",
-    match: "새로운 자극을 나눠주는 땅콩탐험 슬랑이",
-    filter: "sepia(.72) saturate(.72) hue-rotate(350deg) brightness(.98)", color: "#b8895b",
+    name: "쫀득 감자 슬랑이",
+    short: "천천히 눌려도 원래 자리로 돌아오는 안정파",
+    description: "화려하게 앞에 나서기보다 자기 속도로 꾸준히 가요. 한번 마음을 연 사람과 약속은 오래 지키고, 예상 밖의 상황에서도 쉽게 흐트러지지 않는 든든한 타입이에요.",
+    tags: ["#꾸준한", "#든든한", "#오래가는"],
+    strength: "급할수록 주변까지 안심시키는 묵직한 안정감",
+    match: "새로운 자극을 가져오는 딸기 철푸덕 슬랑이",
+    image: "/results/chewy-potato.png",
+    color: "#ad713a",
   },
   butter: {
-    name: "버터포옹 슬랑이",
-    short: "곁에 있으면 스르르 풀리는 휴식 말랑이",
-    description: "사소한 취향과 작은 약속을 잘 기억해요. 말수보다 행동으로 애정을 보여주며, 좋아하는 사람에게는 아낌없이 포근함을 나눠주는 타입이에요.",
-    tags: ["#포근한", "#취향부자", "#행동파다정"],
-    strength: "평범한 하루를 안심되는 하루로 바꾸는 힘",
-    match: "웃음을 가득 가져오는 딸기콕 슬랑이",
-    filter: "sepia(.5) saturate(1.5) hue-rotate(5deg) brightness(1.12)", color: "#f3b82e",
+    name: "크런치 버터바 슬랑이",
+    short: "겉은 바삭까칠, 속은 사르르 부드러운 츤데레파",
+    description: "아무에게나 다정한 척하진 않지만, 내 사람에게 필요한 건 말없이 다 챙겨요. 표현은 조금 툭툭해도 속에는 따뜻한 버터가 가득한, 알수록 부드러운 타입이에요.",
+    tags: ["#겉바속촉", "#행동파다정", "#은근한츤데레"],
+    strength: "빈말 없이 행동으로 믿음을 쌓는 진짜 다정함",
+    match: "마음을 편하게 표현하는 탱글 푸딩 슬랑이",
+    image: "/results/crunchy-butterbar.png",
+    color: "#e99a13",
   },
   peanut: {
-    name: "땅콩탐험 슬랑이",
-    short: "궁금한 건 직접 눌러보는 호기심 말랑이",
-    description: "새로운 아이디어와 엉뚱한 연결을 좋아해요. 궁금증이 생기면 직접 확인해야 직성이 풀리고, 남들이 지나친 재미를 발견하는 능력이 있어요.",
-    tags: ["#호기심천국", "#아이디어뱅크", "#즉흥탐험"],
-    strength: "평범한 것에서 새로운 가능성을 찾는 시선",
-    match: "든든한 베이스가 되어주는 감자포근 슬랑이",
-    filter: "sepia(.9) saturate(1.25) hue-rotate(337deg) brightness(.9)", color: "#9e674b",
+    name: "크런치 땅콩 슬랑이",
+    short: "오돌토돌 작은 차이까지 놓치지 않는 기준파",
+    description: "좋고 싫음의 기준이 분명하고, 애매하게 넘어가는 걸 어려워해요. 조금 까다로워 보여도 그만큼 디테일을 잘 보고 결과의 완성도를 높이는 믿음직한 감별사 타입이에요.",
+    tags: ["#기준확실", "#디테일감별사", "#완성도집착"],
+    strength: "남들이 지나친 작은 차이를 정확히 찾아내는 눈",
+    match: "상황을 유연하게 풀어주는 탱글 푸딩 슬랑이",
+    image: "/results/crunchy-peanut.png",
+    color: "#c77b1c",
   },
   soap: {
-    name: "비누반듯 슬랑이",
-    short: "복잡한 것도 맑게 정리하는 개운 말랑이",
-    description: "해야 할 일과 중요한 마음을 차분히 구분해요. 믿을 수 있는 기준이 있고 설명도 명확해서, 함께 있으면 복잡했던 상황이 반듯해지는 타입이에요.",
-    tags: ["#정리요정", "#믿음직한", "#차분명료"],
-    strength: "엉킨 상황에 가장 쉬운 길을 내는 힘",
-    match: "부드러운 여백을 더해주는 복숭아푸딩 슬랑이",
-    filter: "hue-rotate(120deg) saturate(.78) brightness(1.08)", color: "#63b9c5",
+    name: "폭신 비누 슬랑이",
+    short: "복잡한 것도 반듯하고 개운하게 정리하는 계획파",
+    description: "해야 할 일의 순서를 세우고 깔끔하게 끝냈을 때 가장 편안해요. 설명이 명확하고 약속을 잘 지켜서, 엉킨 상황 속에서도 믿고 맡길 수 있는 타입이에요.",
+    tags: ["#정리요정", "#계획적인", "#맑고명확"],
+    strength: "복잡한 상황에 가장 쉬운 순서를 만들어주는 힘",
+    match: "딱딱한 계획에 재미를 더하는 딸기 철푸덕 슬랑이",
+    image: "/results/soft-soap.png",
+    color: "#68aeca",
   },
 };
 
-function Slangi({ filter, size = "large" }: { filter?: string; size?: "large" | "small" }) {
-  return (
-    <div className={`sprite-window ${size}`} aria-hidden="true">
-      <div className="slangi-sprite" style={{ "--sprite-filter": filter ?? "none" } as CSSProperties} />
-    </div>
-  );
+function AnimatedSlangi() {
+  return <div className="sprite-window large" aria-hidden="true"><div className="slangi-sprite" /></div>;
 }
 
 export default function Home() {
+  const emptyScores: Record<SlangiId, number> = { berry: 0, pudding: 0, potato: 0, butter: 0, peanut: 0, soap: 0 };
   const [stage, setStage] = useState<"intro" | "quiz" | "result">("intro");
   const [questionIndex, setQuestionIndex] = useState(0);
-  const [scores, setScores] = useState<Record<SlangiId, number>>({ berry: 0, peach: 0, potato: 0, butter: 0, peanut: 0, soap: 0 });
-  const [resultId, setResultId] = useState<SlangiId>("peach");
+  const [scores, setScores] = useState<Record<SlangiId, number>>(emptyScores);
+  const [resultId, setResultId] = useState<SlangiId>("pudding");
   const [copied, setCopied] = useState(false);
-
   const progress = useMemo(() => ((questionIndex + 1) / questions.length) * 100, [questionIndex]);
 
   function start() {
-    setScores({ berry: 0, peach: 0, potato: 0, butter: 0, peanut: 0, soap: 0 });
+    setScores({ ...emptyScores });
     setQuestionIndex(0);
     setCopied(false);
     setStage("quiz");
@@ -200,17 +202,16 @@ export default function Home() {
 
   return (
     <main className="site-shell">
-      <div className="float-shape shape-one" />
-      <div className="float-shape shape-two" />
-      <header className="brand"><span className="brand-dot" /> 슬랑이 연구소 <span className="lab-id">SL-01</span></header>
+      <div className="float-shape shape-one" /><div className="float-shape shape-two" />
+      <header className="brand"><span className="brand-dot" /> 슬랑이 연구소 <span className="lab-id">SL-02</span></header>
 
       {stage === "intro" && (
         <section className="panel intro-panel">
-          <div className="sticker sticker-left">말랑 지수<br/><b>100%</b></div>
-          <div className="hero-visual"><span className="spark spark-a">✦</span><Slangi /><span className="spark spark-b">✦</span></div>
+          <div className="sticker">말랑 지수<br/><b>100%</b></div>
+          <div className="hero-visual"><span className="spark spark-a">✦</span><AnimatedSlangi /><span className="spark spark-b">✦</span></div>
           <p className="kicker">8가지 상황으로 알아보는 나의 말랑 본체</p>
           <h1>나는 무슨<br/><span>슬랑이</span>일까?</h1>
-          <p className="intro-copy">눌리면 모양은 변해도 매력은 그대로!<br/>내 성격과 꼭 닮은 말랑이 친구를 찾아봐요.</p>
+          <p className="intro-copy">모양도 촉감도 성격도 전부 다른 여섯 친구!<br/>나와 꼭 닮은 유행 슬랑이를 찾아봐요.</p>
           <button className="primary-button" onClick={start}>내 슬랑이 찾기 <span>→</span></button>
           <div className="mini-note"><span>약 1분</span><i /> 결과는 가볍게 즐겨주세요</div>
         </section>
@@ -222,7 +223,7 @@ export default function Home() {
           <section className="panel quiz-panel" key={questionIndex}>
             <div className="progress-row"><span>SLANGI TEST</span><b>{String(questionIndex + 1).padStart(2, "0")} / {String(questions.length).padStart(2, "0")}</b></div>
             <div className="progress-track"><div style={{ width: `${progress}%` }} /></div>
-            <div className="question-sprite"><Slangi size="small" /></div>
+            <div className="question-number" aria-hidden="true"><span>Q</span>{questionIndex + 1}</div>
             <p className="question-eyebrow">{question.eyebrow}</p>
             <h2>{question.title}</h2>
             <div className="answer-list">
@@ -244,7 +245,11 @@ export default function Home() {
         return (
           <section className="panel result-panel" style={{ "--accent": result.color } as CSSProperties}>
             <p className="result-kicker">당신의 말랑 본체는...</p>
-            <div className="result-visual"><div className="result-halo" /><Slangi filter={result.filter} /><span className="result-label">FOUND!</span></div>
+            <div className="result-visual">
+              <div className="result-halo" />
+              <img className="result-character" src={result.image} alt={`${result.name} 캐릭터`} />
+              <span className="result-label">FOUND!</span>
+            </div>
             <h2>{result.name}</h2>
             <p className="result-short">{result.short}</p>
             <div className="tag-list">{result.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
