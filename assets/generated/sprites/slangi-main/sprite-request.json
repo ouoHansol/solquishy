@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "kind": "sprite-gen-request",
+  "engine": "component-row",
+  "character": {
+    "id": "slangi-main",
+    "description": "peach-pink translucent strawberry pudding squishy toy mascot with cream cap, brown bead eyes, tiny pink nose and happy mouth",
+    "base_image": "base-source.png"
+  },
+  "cell": {
+    "shape": "square",
+    "width": 256,
+    "height": 256,
+    "safe_margin_x": 24,
+    "safe_margin_y": 24,
+    "size": 256,
+    "safe_margin": 24
+  },
+  "chroma_key": {
+    "name": "green",
+    "hex": "#00FF00",
+    "rgb": [
+      0,
+      255,
+      0
+    ],
+    "selection": "manual"
+  },
+  "states": {
+    "idle": {
+      "frames": 4,
+      "fps": 4,
+      "loop": true,
+      "action": "soft squishy breathing: settle, gently compress, rebound, then return close to the first pose with one cute blink"
+    }
+  },
+  "style": "premium cute 3D Korean capsule-toy render, glossy translucent peach-pink squishy gel, clean silhouette",
+  "motion_phase_guides": false
+}

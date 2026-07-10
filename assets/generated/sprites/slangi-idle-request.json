@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "kind": "sprite-gen-request",
+  "engine": "component-row",
+  "cell": {
+    "shape": "square",
+    "size": 256,
+    "safe_margin": 24
+  },
+  "chroma_key": {
+    "name": "green",
+    "hex": "#00FF00",
+    "rgb": [0, 255, 0]
+  },
+  "states": {
+    "idle": {
+      "frames": 4,
+      "fps": 4,
+      "loop": true,
+      "action": "soft squishy breathing: settle, gently compress, rebound, then return close to the first pose with one cute blink"
+    }
+  },
+  "style": "premium cute 3D Korean capsule-toy render, glossy translucent peach-pink squishy gel, clean silhouette"
+}
