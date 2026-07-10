@@ -362,7 +362,7 @@ export default function Home() {
         <section className="panel intro-panel">
           <div className="sticker">말랑 지수<br/><b>100%</b></div>
           <div className="hero-visual"><span className="spark spark-a">✦</span><AnimatedSlangi /><span className="spark spark-b">✦</span></div>
-          <p className="kicker">8가지 상황으로 알아보는 나의 말랑 본체</p>
+          <p className="kicker">10가지 상황으로 알아보는 나의 말랑 본체</p>
           <h1>나는 무슨<br/><span>슬랑이</span>일까?</h1>
           <p className="intro-copy">모양도 촉감도 성격도 전부 다른 열두 친구!<br/>나와 꼭 닮은 유행 슬랑이를 찾아봐요.</p>
           <button className="primary-button" onClick={start}>내 슬랑이 찾기 <span>→</span></button>

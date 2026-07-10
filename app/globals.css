@@ -2,7 +2,8 @@
 
 :root { --ink: #3c211b; --cream: #fff9ed; --paper: #fffdf7; --peach: #ff765f; --line: #e9d8c4; }
 * { box-sizing: border-box; }
-html { min-width: 320px; background: #f5ead8; }
+html { min-width: 320px; background: #f5ead8; scrollbar-width: none; }
+html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; }
 body { margin: 0; min-height: 100vh; color: var(--ink); background: radial-gradient(circle at 20% 10%, rgba(255,255,255,.9), transparent 32%), linear-gradient(135deg,#f6e9d5 0%,#fff7e7 48%,#f1e1cb 100%); font-family: Pretendard,"Noto Sans KR","Apple SD Gothic Neo",sans-serif; }
 button { font: inherit; }
 .site-shell { position: relative; isolation: isolate; width: min(100%,720px); min-height: 100vh; margin: 0 auto; padding: 28px 18px 24px; overflow: hidden; }
