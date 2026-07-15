@@ -37,6 +37,12 @@ yarn-error.log*
 # typescript
 next-env.d.ts
 /dist/
+/appintoss/node_modules/
+/appintoss/dist/
+/appintoss/*.ait
+/appintoss/.granite/
+/appintoss/*.log
+/solquishy*.ait
 /.wrangler/
 /outputs/
 /work/

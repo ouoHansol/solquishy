@@ -1,0 +1,24 @@
+{
+  "name": "solquishy",
+  "version": "1.0.7",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "granite dev",
+    "web:build": "vite build",
+    "build": "ait build",
+    "deploy": "ait deploy"
+  },
+  "dependencies": {
+    "@apps-in-toss/web-framework": "2.4.1",
+    "react": "19.2.6",
+    "react-dom": "19.2.6"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react-swc": "3.10.2",
+    "typescript": "5.9.3",
+    "vite": "7.0.4"
+  }
+}

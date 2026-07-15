@@ -2,6 +2,25 @@
 
 import { CSSProperties, useMemo, useState } from "react";
 
+export type SlangiSharePayload = {
+  name: string;
+  short: string;
+};
+
+export type SlangiSavePayload = SlangiSharePayload & {
+  description: string;
+  tags: string[];
+  strength: string;
+  match: string;
+  image: string;
+  color: string;
+};
+
+type HomeProps = {
+  onShareResult?: (payload: SlangiSharePayload) => Promise<void>;
+  onSaveResultImage?: (payload: SlangiSavePayload) => Promise<void>;
+};
+
 type SlangiId = "berry" | "pudding" | "potato" | "butter" | "peanut" | "soap" | "cabbage" | "carrot" | "pepper" | "cucumber" | "towel" | "cheese";
 
 type Answer = {
@@ -312,19 +331,21 @@ function AnimatedSlangi() {
   return <div className="sprite-window large" aria-hidden="true"><div className="slangi-sprite" /></div>;
 }
 
-export default function Home() {
+export default function Home({ onShareResult, onSaveResultImage }: HomeProps = {}) {
   const emptyScores: Record<SlangiId, number> = { berry: 0, pudding: 0, potato: 0, butter: 0, peanut: 0, soap: 0, cabbage: 0, carrot: 0, pepper: 0, cucumber: 0, towel: 0, cheese: 0 };
   const [stage, setStage] = useState<"intro" | "quiz" | "result">("intro");
   const [questionIndex, setQuestionIndex] = useState(0);
   const [scores, setScores] = useState<Record<SlangiId, number>>(emptyScores);
   const [resultId, setResultId] = useState<SlangiId>("pudding");
   const [copied, setCopied] = useState(false);
+  const [imageSaved, setImageSaved] = useState(false);
   const progress = useMemo(() => ((questionIndex + 1) / questions.length) * 100, [questionIndex]);
 
   function start() {
     setScores({ ...emptyScores });
     setQuestionIndex(0);
     setCopied(false);
+    setImageSaved(false);
     setStage("quiz");
   }
 
@@ -343,7 +364,15 @@ export default function Home() {
 
   async function shareResult() {
     const result = results[resultId];
-    const shareData = { title: "나는 무슨 슬랑이일까?", text: `나는 ${result.name}! ${result.short}`, url: window.location.href };
+    if (onShareResult) {
+      try {
+        await onShareResult({ name: result.name, short: result.short });
+      } catch {
+        // Native sharing can be cancelled by the user.
+      }
+      return;
+    }
+    const shareData = { title: "난 무슨 슬랑이일까?", text: `나는 ${result.name}! ${result.short}`, url: window.location.href };
     try {
       if (navigator.share) await navigator.share(shareData);
       else {
@@ -351,6 +380,26 @@ export default function Home() {
         setCopied(true);
       }
     } catch { /* Sharing can be cancelled by the user. */ }
+  }
+
+  async function saveResultImage() {
+    if (!onSaveResultImage) return;
+    const result = results[resultId];
+    try {
+      await onSaveResultImage({
+        name: result.name,
+        short: result.short,
+        description: result.description,
+        tags: result.tags,
+        strength: result.strength,
+        match: result.match,
+        image: result.image,
+        color: result.color,
+      });
+      setImageSaved(true);
+    } catch {
+      // The native save dialog can be cancelled by the user.
+    }
   }
 
   return (
@@ -363,7 +412,7 @@ export default function Home() {
           <div className="sticker">말랑 지수<br/><b>100%</b></div>
           <div className="hero-visual"><span className="spark spark-a">✦</span><AnimatedSlangi /><span className="spark spark-b">✦</span></div>
           <p className="kicker">10가지 상황으로 알아보는 나의 말랑 본체</p>
-          <h1>나는 무슨<br/><span>슬랑이</span>일까?</h1>
+          <h1>난 무슨<br/><span>슬랑이</span>일까?</h1>
           <p className="intro-copy">모양도 촉감도 성격도 전부 다른 열두 친구!<br/>나와 꼭 닮은 유행 슬랑이를 찾아봐요.</p>
           <button className="primary-button" onClick={start}>내 슬랑이 찾기 <span>→</span></button>
           <div className="mini-note"><span>약 1분</span><i /> 결과는 가볍게 즐겨주세요</div>
@@ -413,6 +462,9 @@ export default function Home() {
             </div>
             <div className="result-actions">
               <button className="primary-button" onClick={shareResult}>{copied ? "링크 복사 완료!" : "결과 공유하기"} <span>↗</span></button>
+              {onSaveResultImage && (
+                <button className="save-button" onClick={saveResultImage}>{imageSaved ? "이미지 저장 완료!" : "이미지 저장하기"} <span>↓</span></button>
+              )}
               <button className="secondary-button" onClick={start}>다시 눌러보기 ↻</button>
             </div>
             <p className="share-note">친구는 어떤 슬랑이인지 링크를 보내 확인해보세요.</p>

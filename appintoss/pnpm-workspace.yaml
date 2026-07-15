@@ -1,0 +1,14 @@
+packages:
+  - .
+
+allowBuilds:
+  '@sentry/cli': true
+  '@swc/core': true
+  esbuild: true
+  protobufjs: true
+
+onlyBuiltDependencies:
+  - "@sentry/cli"
+  - "@swc/core"
+  - "esbuild"
+  - "protobufjs"

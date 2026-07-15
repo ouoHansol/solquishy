@@ -1,0 +1,6 @@
+
+.granite/
+dist/
+node_modules/
+*.ait
+*.tsbuildinfo
